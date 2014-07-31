@@ -6,16 +6,18 @@ abstract class AbstractService implements BibleService {
 
     def bibleData, bookList, chapters, verses
 
-    AbstractService(jsonBibleTextFilename){
+    AbstractService(jsonBibleTextFilename) {
         init(jsonBibleTextFilename)
     }
-    def init(jsonBibleTextFilename){
+
+    def init(jsonBibleTextFilename) {
         bibleData = new BibleData(jsonBibleTextFilename).data()
         bookList = bibleData.bible.books
         chapters = bibleData.bible.chapters
         verses = bibleData.bible.verses
     }
 
+    @Override
     def chapterVerseCount(bkId, chapter) {
         def chpt = chapters.find { chptInfo ->
             chptInfo.book == bkId &&
@@ -24,38 +26,49 @@ abstract class AbstractService implements BibleService {
         chpt ? chpt.verses : 0
     }
 
+
+    @Override
+    def parseVerseSpec(String verseSpec) {
+
+        def parts = verseSpec.split(':')
+        def bkChpt = parts[0].split(' ') as List;
+        def chpt = (bkChpt.pop() as int);
+        def bkName = bkChpt.join(' ').trim();
+        def verses
+        // if the
+        def book = bookNameToBook(bkName)
+        if (!book)
+            throw new IllegalArgumentException("Bad book name: [$bkName]")
+        if (parts.length == 1) {
+            verses = "1-${chapterVerseCount(book.id, chpt)}"
+        } else {
+            verses = parts[1]
+        }
+        return [
+                book   : book,
+                chapter: chpt,
+                verses : verses
+        ]
+    }
+
     @Override
     VerseRange verseSpecToVerses(String verseSpec) {
-
         /// break the string into parts starting with Bookname
         ///  Gen 5:2-6, 8-12
-
-        def parts = verseSpec.split(' ',2)
-        def bkName =  parts[0]
-
-        /// get the book
-        def book = bookNameToBook(bkName)
-
-        if (!book)
-            throw new IllegalArgumentException("Bad book name: $bkName")
-
-        def  theRest = parts[1]
-        def chptAndVerses = theRest.split(':')
-        // get the chapter
-        def chapter = Integer.parseInt(chptAndVerses[0])
-
-        /// get the verses
-        def sets = chptAndVerses[1].split(',')
+        def parsedVerseSpec = parseVerseSpec(verseSpec);
+        def book = parsedVerseSpec.book
+        def bkName = book.title
+        def chapter = parsedVerseSpec.chapter
+        def sets = parsedVerseSpec.verses.split(',')
         def verseList = []
-
         sets.each { vlist ->
             def start, end
-            if (vlist.contains('-')){
+            if (vlist.contains('-')) {
                 def l = vlist.split('-')
                 start = l[0] as int
                 end = l[1] as int
 
-            }else{
+            } else {
                 end = start = (vlist as int)
             }
             (start..end).each { v ->
@@ -63,17 +76,18 @@ abstract class AbstractService implements BibleService {
             }
         }
 
-        List<Verse> verses=[]
+        List<Verse> verses = []
         verseList.each { v ->
-            String vid  = String.format("%02d%03d%03d", book.id,chapter,v)
+            String vid = String.format("%02d%03d%03d", book.id, chapter, v)
             def verse = getVerse(vid)
             if (verse)
                 verses << verse
         }
-        new VerseRange(verseSpec, verses)
+        new VerseRange("$bkName $chapter:${parsedVerseSpec.verses}", verses)
     }
 
-    def bookNameToBook(bkName){
+    @Override
+    def bookNameToBook(bkName) {
         def ret
         /// compare the upper
         bkName = bkName.toUpperCase()
@@ -86,7 +100,7 @@ abstract class AbstractService implements BibleService {
             def list = bookList.findAll { bk ->
                 bk.title.toUpperCase().startsWith(bkName)
             }
-            if (list.size() ==1)
+            if (list.size() == 1)
                 ret = list[0]
         }
         ret
@@ -105,13 +119,21 @@ abstract class AbstractService implements BibleService {
     }
 
     @Override
+    VerseRange getChapter(int book, int chapter) {
+        def bk = getBook(book)
+        def lastVerse = chapterVerseCount(book, chapter)
+        def verseSpec = "${bk.title} $chapter:1-$lastVerse"
+        verseSpecToVerses(verseSpec)
+    }
+
+    @Override
     List<Book> getBooks() {
         bookList
     }
 
     @Override
     Book getBook(int bookId) {
-        bookList[bookId-1]
+        bookList[bookId - 1]
     }
 
     private def verseToSearchResult = { verse ->

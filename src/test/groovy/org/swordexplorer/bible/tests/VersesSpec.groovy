@@ -30,4 +30,13 @@ class VersesSpec extends Specification {
         verseRange.verses[5].verse == 9
     }
 
+    def "verseSpecToVerse '1 Chronicles 16:1-5, 9, 11-14' should return a VerseRange with 10 verses"() {
+        when:
+        def verseRange = bookService.verseSpecToVerses("1 Chronicles  16:1-5, 9, 11-15")
+
+        then:
+        verseRange.verses.size() == 11
+        verseRange.verses[5].verse == 9
+    }
+
 }

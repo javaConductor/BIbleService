@@ -3,13 +3,13 @@ package org.swordexplorer.bible
 /**
  *
  */
-class VerseRange {
+class VerseSet {
     def verseSpec
-    List<Verse>  verses
+    List<String> verseIds
 
-    VerseRange(String verseSpec, List<Verse> verses){
+    VerseSet(String verseSpec, List<String> verseIds) {
         this.verseSpec = verseSpec
-        this.verses =verses
+        this.verseIds = verseIds
     }
 
     /**
