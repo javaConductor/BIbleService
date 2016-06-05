@@ -1,14 +1,21 @@
 package org.swordexplorer.bible
 
+import groovy.transform.ToString
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
+
 /**
  * Created by lcollins on 5/10/2014.
  */
-class Verse {
+@ToString
+@Document
+class Verse  implements Serializable  {
+    @Id
+    String verseId //BBCCCVVV
     int verse
     int book
     int chapter
     String verseText
-    String verseId //BBCCCVVV
     String toString(){
         "$verseId $verseText"
     }

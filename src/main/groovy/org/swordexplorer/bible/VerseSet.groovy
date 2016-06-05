@@ -1,9 +1,12 @@
 package org.swordexplorer.bible
 
+import org.springframework.data.mongodb.core.mapping.Document
+
 /**
  *
  */
-class VerseSet {
+@Document
+class VerseSet implements  Serializable{
     def verseSpec
     List<String> verseIds
 

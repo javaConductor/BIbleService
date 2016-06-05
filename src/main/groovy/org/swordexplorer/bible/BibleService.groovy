@@ -8,12 +8,15 @@ interface BibleService {
 
     def parseVerseSpec(String verseSpec)
 
+    boolean  isVerseSpec(String verseSpec)
+
     VerseRange verseSpecToVerses(String verseSpec)
 
     def bookNameToBook(bkName)
 
     Verse getVerse(String verseId)
     List<Verse> getVerses(List<String> verseIds)
+    List<Verse> getVerses(String verseSpec)
 
     VerseRange getChapter(int book, int chapter)
 
