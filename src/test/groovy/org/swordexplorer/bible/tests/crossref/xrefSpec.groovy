@@ -2,6 +2,7 @@ package org.swordexplorer.bible.tests.crossref
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.test.context.ContextConfiguration
+import org.swordexplorer.bible.BibleService
 import org.swordexplorer.crossref.BibleCrossReference
 import org.swordexplorer.kjv.KjvService
 import spock.lang.Specification
@@ -53,8 +54,8 @@ class xrefSpec extends Specification {
             ]
         ];
 
-    def bookService= new KjvService()
-    def xrefService= new BibleCrossReference(bookService )
+  BibleService bookService= new KjvService()
+    def xrefService= new BibleCrossReference( bookService )
 
     def "should add a verseRelationship to the crossReference"() {
         when:

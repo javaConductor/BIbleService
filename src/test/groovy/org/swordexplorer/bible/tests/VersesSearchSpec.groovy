@@ -1,5 +1,6 @@
 package org.swordexplorer.bible.tests
 
+import org.swordexplorer.bible.BibleService
 import org.swordexplorer.kjv.KjvService
 import spock.lang.Specification
 
@@ -9,14 +10,14 @@ import spock.lang.Specification
  */
 class VersesSearchSpec extends Specification {
 
-    def bookService = new KjvService()
+    BibleService bibleService = new KjvService()
 
     void setup() {
     }
 
     def "service should find 'holy'"() {
         when:
-        def verses = bookService.getVerseWithAllWords(["holy"])
+        def verses = bibleService.getVerseWithAllWords(["holy"])
 
         then:
         verses.size() > 0
@@ -25,7 +26,7 @@ class VersesSearchSpec extends Specification {
 
     def "service should find 'Jeshurun'"() {
         when:
-        def verses = bookService.getVerseWithAllWords(["Jeshurun"])
+        def verses = bibleService.getVerseWithAllWords(["Jeshurun"])
 
         then:
         verses.size() > 0
@@ -35,7 +36,7 @@ class VersesSearchSpec extends Specification {
 
     def "service should find 'Jeshurun and salvation'"() {
         when:
-        def verses = bookService.getVerseWithAllWords(["Jeshurun", "Salvation"])
+        def verses = bibleService.getVerseWithAllWords(["Jeshurun", "Salvation"])
         then:
         verses.size() == 1
         verses[0].verseId == '05032015'
@@ -44,7 +45,7 @@ class VersesSearchSpec extends Specification {
 
     def "service should find 'Jeshurun or salvation'"() {
         when:
-        def verses = bookService.getVerseWithAnyWords(["Jeshurun", "Salvation"])
+        def verses = bibleService.getVerseWithAnyWords(["Jeshurun", "Salvation"])
         then:
         verses.size() == 160
     }

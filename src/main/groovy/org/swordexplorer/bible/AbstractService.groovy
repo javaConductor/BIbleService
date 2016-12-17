@@ -187,14 +187,14 @@ abstract class AbstractService implements BibleService {
   }
 
   @Override
-  List getVersesWithPhrase(phrase) {
+  List getVersesWithPhrase(String phrase) {
     verses.values().findAll { v ->
       v.verseText.toUpperCase().contains(phrase.toUpperCase())
     }.collect(verseToSearchResult)
   }//phrase
 
   @Override
-  List getVersesWithAllWords(words) {
+  List getVersesWithAllWords(List words) {
     def wlist = words.split(' ')
     verses.values().findAll { v ->
       wlist.every { w ->
@@ -204,7 +204,7 @@ abstract class AbstractService implements BibleService {
   }//all
 
   @Override
-  List getVersesWithAnyWords(words) {
+  List getVersesWithAnyWords(List words) {
     def wlist = words.split(' ')
     verses.values().findAll { v ->
       wlist.any { w ->

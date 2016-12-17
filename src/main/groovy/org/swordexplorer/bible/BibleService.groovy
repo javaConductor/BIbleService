@@ -20,9 +20,9 @@ interface BibleService {
 
     VerseRange getChapter(int book, int chapter)
 
-    List getVersesWithPhrase(words)
-    List getVersesWithAnyWords(words)
-    List getVersesWithAllWords(words)
+    List getVersesWithPhrase(String phrase)
+    List getVersesWithAnyWords(List words)
+    List getVersesWithAllWords(List words)
 
     List<Book> getBooks()
     Book getBook(int bookId)
