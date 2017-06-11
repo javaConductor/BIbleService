@@ -195,7 +195,7 @@ abstract class AbstractService implements BibleService {
 
   @Override
   List getVersesWithAllWords(List words) {
-    def wlist = words.split(' ')
+      def wlist = words
     verses.values().findAll { v ->
       wlist.every { w ->
         v.verseText.toUpperCase().contains(w.toUpperCase())
@@ -205,7 +205,7 @@ abstract class AbstractService implements BibleService {
 
   @Override
   List getVersesWithAnyWords(List words) {
-    def wlist = words.split(' ')
+      def wlist = words
     verses.values().findAll { v ->
       wlist.any { w ->
         v.verseText.toUpperCase().contains(w.toUpperCase())

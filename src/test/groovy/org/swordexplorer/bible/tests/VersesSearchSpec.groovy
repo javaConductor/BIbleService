@@ -17,7 +17,7 @@ class VersesSearchSpec extends Specification {
 
     def "service should find 'holy'"() {
         when:
-        def verses = bibleService.getVerseWithAllWords(["holy"])
+        def verses = bibleService.getVersesWithAllWords(["holy"])
 
         then:
         verses.size() > 0
@@ -26,7 +26,7 @@ class VersesSearchSpec extends Specification {
 
     def "service should find 'Jeshurun'"() {
         when:
-        def verses = bibleService.getVerseWithAllWords(["Jeshurun"])
+        def verses = bibleService.getVersesWithAllWords(["Jeshurun"])
 
         then:
         verses.size() > 0
@@ -36,7 +36,7 @@ class VersesSearchSpec extends Specification {
 
     def "service should find 'Jeshurun and salvation'"() {
         when:
-        def verses = bibleService.getVerseWithAllWords(["Jeshurun", "Salvation"])
+        def verses = bibleService.getVersesWithAllWords(["Jeshurun", "Salvation"])
         then:
         verses.size() == 1
         verses[0].verseId == '05032015'
@@ -45,7 +45,7 @@ class VersesSearchSpec extends Specification {
 
     def "service should find 'Jeshurun or salvation'"() {
         when:
-        def verses = bibleService.getVerseWithAnyWords(["Jeshurun", "Salvation"])
+        def verses = bibleService.getVersesWithAnyWords(["Jeshurun", "Salvation"])
         then:
         verses.size() == 160
     }

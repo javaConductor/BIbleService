@@ -2,12 +2,11 @@ package org.swordexplorer.crossref.db
 
 import com.mongodb.BasicDBObject
 import com.mongodb.DBObject
-import com.mongodb.WriteResult
 import groovyjarjarantlr.collections.List
 import org.bson.types.ObjectId
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.data.mongodb.core.query.Criteria
-import org.springframework.data.mongodb.core.query.Query
+import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.swordexplorer.bible.BibleService
 import org.swordexplorer.crossref.domain.VerseRelationship
@@ -16,38 +15,42 @@ import org.swordexplorer.crossref.domain.VerseRelationship
  * Created by lcollins on 10/17/2014.
  */
 @Service("xrefDb")
-class XRefDb {
+@Repository
+class XRefDb {//implements PagingAndSortingRepository<VerseRelationship, String>{
     BibleService bibleService
     MongoTemplate mongo
 
+    @Autowired
     XRefDb(BibleService bibleService, MongoTemplate mongo) {
+        super()
         this.mongo =mongo
         this.bibleService = bibleService
     }
 
     VerseRelationship createRelationship(VerseRelationship verseRelationship) {
-        mongo.save(verseRelationship)
-        verseRelationship
+        this.save(verseRelationship)
     }/// createRelationship
 
     boolean removeRelationship(relationshipId) {
-        WriteResult wr = mongo.remove(new Query(Criteria.where('id').is(relationshipId)), VerseRelationship)
-        wr.n > 0
+        try {
+            this.delete(relationshipId)
+            true
+        } catch (Exception e) {
+            false
+        }
     }/// removeRelationship
 
     VerseRelationship updateRelationship(VerseRelationship verseRelationship) {
         verseRelationship.comments = verseRelationship.comments ?: ""
-        mongo.save(verseRelationship);
-        verseRelationship
+        save(verseRelationship)
     }/// updateRelationship
 
     VerseRelationship getRelationship(ObjectId id) {
-        mongo.findById ( id, VerseRelationship )
+        findOne(id)
     }/// updateRelationship
 
     List allRelationships() {
-        List l = mongo.findAll(VerseRelationship) as List
-      l
+        findAll().toList()
     }/// allRelationships
 
     DBObject dbObject(VerseRelationship verseRelationship) {
@@ -61,4 +64,5 @@ class XRefDb {
             tmp.id = new ObjectId(verseRelationship.id);
         tmp as BasicDBObject;
     }
+
 }

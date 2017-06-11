@@ -10,7 +10,7 @@ interface BibleService {
 
     boolean  isVerseSpec(String verseSpec)
 
-    VerseRange verseSpecToVerses(String verseSpec)
+    org.swordexplorer.bible.VerseRange verseSpecToVerses(String verseSpec)
 
     def bookNameToBook(bkName)
 

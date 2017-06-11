@@ -1,6 +1,7 @@
 package org.swordexplorer.crossref
 
 import org.bson.types.ObjectId
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.swordexplorer.bible.BibleService
 import org.swordexplorer.crossref.db.XRefDb
@@ -18,7 +19,8 @@ class BibleCrossReference {
     BibleService service
     XRefDb xrefDb
 
-    def BibleCrossReference(BibleService service, XRefDb xrefDb) {
+    @Autowired
+    BibleCrossReference(BibleService service, XRefDb xrefDb) {
         this.service = service
         this.xrefDb = xrefDb
     }
