@@ -132,6 +132,11 @@ abstract class AbstractService implements BibleService {
     ret
   }
 
+  private Verse addVerseSpec(Verse v) {
+    v?.verseSpec = verseSpecFromVerseId(v?.verseId)
+    v
+  }
+
   @Override
   Verse getVerse(String verseId) {
     verses[verseId]
@@ -140,13 +145,13 @@ abstract class AbstractService implements BibleService {
   @Override
   List<Verse> getVerses(List<String> verseIds) {
     verseIds.collect { vid ->
-      getVerse(vid)
+      addVerseSpec(getVerse(vid))
     }
   }
 
   @Override
   List<Verse> getVerses(String verseSpec) {
-    verseSpecToVerses(verseSpec)?.verses
+    verseSpecToVerses(verseSpec)?.verses.collect(this.&addVerseSpec)
   }
 
   @Override
@@ -168,11 +173,11 @@ abstract class AbstractService implements BibleService {
   }
 
   private def verseToSearchResult = { verse ->
-    [
-      verseId  : verse.verseId,
-      verseSpec: verseSpecFromVerseId(verse.verseId),
-      verseText: verse.verseText
-    ]
+    new SearchResult(
+            verseId: verse.verseId,
+            verseSpec: verseSpecFromVerseId(verse.verseId),
+            verseText: verse.verseText
+    )
   }
 
   @Override
@@ -186,6 +191,11 @@ abstract class AbstractService implements BibleService {
     "$bkName $chapter:$verse"
   }
 
+  /**
+   *
+   * @param phrase
+   * @return searchResults[{verseId:abc, verseSpec:xyz, verseText:123}]
+   */
   @Override
   List getVersesWithPhrase(String phrase) {
     verses.values().findAll { v ->
@@ -193,6 +203,11 @@ abstract class AbstractService implements BibleService {
     }.collect(verseToSearchResult)
   }//phrase
 
+/**
+ *
+ * @param words
+ * @return searchResults[{verseId:abc, verseSpec:xyz, verseText:123}]
+ */
   @Override
   List getVersesWithAllWords(List words) {
       def wlist = words
@@ -203,6 +218,11 @@ abstract class AbstractService implements BibleService {
     }.collect(verseToSearchResult)
   }//all
 
+  /**
+   *
+   * @param words
+   * @return searchResults[{verseId:abc, verseSpec:xyz, verseText:123}]
+   */
   @Override
   List getVersesWithAnyWords(List words) {
       def wlist = words
@@ -213,4 +233,21 @@ abstract class AbstractService implements BibleService {
     }.collect(verseToSearchResult)
   }//any
 
+  /**
+   *
+   * @param searchText
+   * @param searchType
+   * @return searchResults[{verseId:abc, verseSpec:xyz, verseText:123}]
+   */
+  @Override
+  List<Verse> searchVerses(String searchText, String searchType) {
+    def wordList = searchText.split(' ').toList().findAll { w -> w.trim().length() > 0 }
+    switch (searchType.toUpperCase()) {
+      case "ANY": getVersesWithAnyWords(wordList); break;
+      case "ALL": getVersesWithAllWords(wordList); break;
+      case "PHRASE": getVersesWithPhrase(searchText); break;
+      default: throw new IllegalArgumentException("searchType must be one of: ALL, NAY, PHRASE")
+
+    }
+  }
 }

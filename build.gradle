@@ -13,7 +13,7 @@ apply plugin: 'application'
 
 version = '0.0.1'
 group = 'org.swordexplorer'
-def springVersion = '4.0.3.RELEASE'
+def springVersion = '4.2.0.RELEASE'
 mainClassName="org.swordexplorer.Main"
 
 repositories {
@@ -47,7 +47,8 @@ dependencies {
 
     /// Mongo
 //    compile "org.springframework.data:spring-data-mongodb:1.5.2.RELEASE"
-//    compile "org.mongodb:mongo-java-driver:2.12.2"
+    compile "org.mongodb:mongo-java-driver:2.12.2"
+    compile "org.mongodb:mongodb-driver:3.4.2"
 
 
     testCompile "org.springframework:spring-test:${springVersion}"

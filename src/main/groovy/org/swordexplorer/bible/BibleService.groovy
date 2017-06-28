@@ -27,4 +27,6 @@ interface BibleService {
     List<Book> getBooks()
     Book getBook(int bookId)
     String verseSpecFromVerseId(vid)
+
+    List<Verse> searchVerses(String searchText, String searchType)
 }

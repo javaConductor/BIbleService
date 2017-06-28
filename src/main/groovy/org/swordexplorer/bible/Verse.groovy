@@ -15,8 +15,9 @@ class Verse  implements Serializable  {
     int verse
     int book
     int chapter
+    String verseSpec
     String verseText
     String toString(){
-        "$verseId $verseText"
+        "$verseSpec $verseText"
     }
 }

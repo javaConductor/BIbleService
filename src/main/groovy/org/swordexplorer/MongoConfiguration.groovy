@@ -25,9 +25,5 @@ class MongoConfiguration extends AbstractMongoConfiguration {
         return new Mongo();
     }
 
-    @Override
-    protected String getMappingBasePackage() {
-        return "com.johnathanmarksmith.mongodb.example.domain";
-    }
 
 }
