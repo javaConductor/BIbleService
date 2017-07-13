@@ -212,8 +212,11 @@ abstract class AbstractService implements BibleService {
   List getVersesWithAllWords(List words) {
       def wlist = words
     verses.values().findAll { v ->
+        def verseText = v.verseText.toUpperCase()
       wlist.every { w ->
-        v.verseText.toUpperCase().contains(w.toUpperCase())
+          def regexStart = ~/^.*[^\w]+(${w.toUpperCase()})[ ,.:;\$]+.*/
+          regexStart.matcher(verseText).matches()
+//        v.verseText.toUpperCase().contains(w.toUpperCase())
       }
     }.collect(verseToSearchResult)
   }//all
@@ -227,8 +230,10 @@ abstract class AbstractService implements BibleService {
   List getVersesWithAnyWords(List words) {
       def wlist = words
     verses.values().findAll { v ->
-      wlist.any { w ->
-        v.verseText.toUpperCase().contains(w.toUpperCase())
+        def verseText = v.verseText.toUpperCase()
+        wlist.any { String w ->
+            def regexStart = ~/^.*[^\w]+(${w.toUpperCase()})[ ,.:;\$]+.*/
+            regexStart.matcher(verseText).matches()
       }
     }.collect(verseToSearchResult)
   }//any
