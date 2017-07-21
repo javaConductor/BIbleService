@@ -145,13 +145,18 @@ abstract class AbstractService implements BibleService {
   @Override
   List<Verse> getVerses(List<String> verseIds) {
     verseIds.collect { vid ->
-      addVerseSpec(getVerse(vid))
+      def v = getVerse(vid)
+      v?.verseSpec = verseSpecFromVerseId(vid)
+      v
     }
   }
 
   @Override
   List<Verse> getVerses(String verseSpec) {
-    verseSpecToVerses(verseSpec)?.verses.collect(this.&addVerseSpec)
+    verseSpecToVerses(verseSpec)?.verses.collect { v ->
+      v?.verseSpec = verseSpecFromVerseId(v.verseId)
+      v
+    }
   }
 
   @Override

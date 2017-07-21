@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*
 import org.swordexplorer.bible.BibleService
 import org.swordexplorer.bible.SearchResult
 import org.swordexplorer.bible.Verse
+import org.swordexplorer.bible.VerseRange
 
 /**
  * Created by lee on 6/11/17.
@@ -26,9 +27,9 @@ class VerseController {
     }
 
     @RequestMapping(path = "/fromSpec/{verseSpec}", method = RequestMethod.GET)
-    Response<List<Verse>> fromVerseSpec(@PathVariable("verseSpec") String verseSpec) {
+    Response<VerseRange> fromVerseSpec(@PathVariable("verseSpec") String verseSpec) {
         println("/fromSpec/${verseSpec}")
-        new Response<List<Verse>>(success: true, data: bibleService.getVerses(verseSpec))
+        new Response<VerseRange>(success: true, data: bibleService.verseSpecToVerses(verseSpec))
     }
 
     @CrossOrigin
