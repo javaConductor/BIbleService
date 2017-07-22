@@ -2,6 +2,10 @@ package org.swordexplorer.bible
 /**
  *
  */
+class Pair {
+    Integer start, end;
+}
+
 abstract class AbstractService implements BibleService {
 
   def bibleData, bookList, chapters, verses
@@ -48,7 +52,45 @@ abstract class AbstractService implements BibleService {
 
   }
 
-  @Override
+    String optimizeVerseSpecVerses(versesStr, maxVerse) {
+
+        def parts = versesStr.split(",").toList()
+        def vlist = parts.collect { v ->
+            /// is there a '-'
+            def verseNums = v.split('-').toList()
+            if (verseNums.size() == 1) {
+                [verseNums.head().asType(Integer)]
+            } else {
+                [verseNums.head().asType(Integer)..verseNums[1].asType(Integer)]
+            }
+        }.flatten().unique().findAll { it <= maxVerse }
+
+
+        vlist.inject([]) { List acc, n ->
+            if (acc.isEmpty()) {
+                return [new Pair(start: n, end: n)]
+            } else {
+                Pair last = acc.last()
+
+                def start = last.start
+                def end = last.end
+                if (n != end + 1) {
+                    return acc + new Pair(start: n, end: n)
+                } else {
+                    def nuPair = new Pair(start: start, end: n)
+                    return acc.reverse().tail().reverse() + nuPair
+                    //return acc[0..-1] + nuPair
+                }
+            }
+        }.collect { pair ->
+            if (pair.start == pair.end)
+                pair.start.toString()
+            else
+                "${pair.start}-${pair.end}"
+        }.join(",")
+    }
+
+    @Override
   def parseVerseSpec(String verseSpec) {
 
     if (!isVerseSpec(verseSpec))
@@ -67,10 +109,12 @@ abstract class AbstractService implements BibleService {
     } else {
       verses = parts[1]
     }
+        // optimize verses
+
     return [
-      book   : book,
-      chapter: chpt,
-      verses : verses
+            book   : book,
+            chapter: chpt,
+            verses : optimizeVerseSpecVerses(verses, chapterVerseCount(book.id, chpt))
     ]
   }
 
