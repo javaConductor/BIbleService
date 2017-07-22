@@ -63,7 +63,7 @@ abstract class AbstractService implements BibleService {
             } else {
                 [verseNums.head().asType(Integer)..verseNums[1].asType(Integer)]
             }
-        }.flatten().unique().findAll { it <= maxVerse }
+        }.flatten().findAll { it <= maxVerse }
 
 
         vlist.inject([]) { List acc, n ->
@@ -87,7 +87,7 @@ abstract class AbstractService implements BibleService {
                 pair.start.toString()
             else
                 "${pair.start}-${pair.end}"
-        }.join(",")
+        }.join(", ")
     }
 
     @Override
