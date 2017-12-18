@@ -47,7 +47,7 @@ class VersesSearchSpec extends Specification {
         when:
         def verses = bibleService.getVersesWithAnyWords(["Jeshurun", "Salvation"])
         then:
-        verses.size() == 160
+        verses.size() == 156
     }
 
 }

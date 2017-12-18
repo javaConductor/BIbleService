@@ -1,0 +1,9 @@
+[Unit]
+Description=King James Bible Verse Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/kjv-service.start.sh
+ExecStop=/usr/bin/kjv-service.stop.sh

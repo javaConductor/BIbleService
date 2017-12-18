@@ -11,10 +11,12 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'application'
 
-version = '0.0.1'
 group = 'org.swordexplorer'
 def springVersion = '4.2.0.RELEASE'
 mainClassName="org.swordexplorer.Main"
+String appName = "kjv-service"
+String ver = '0.1.0'
+version = ver
 
 repositories {
     mavenCentral()
@@ -25,6 +27,16 @@ repositories {
 task wrapper(type: Wrapper) {
     gradleVersion = '3.5'
 }
+
+
+task deploy(type:Exec) {
+    workingDir './deployment'
+    executable 'sh'
+    args "./deploy.sh", appName, ver
+}
+
+deploy.dependsOn build
+
 
 dependencies {
     compile('org.codehaus.groovy:groovy-all:2.4.0')

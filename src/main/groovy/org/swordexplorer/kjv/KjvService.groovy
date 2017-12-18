@@ -10,9 +10,10 @@ import org.swordexplorer.bible.AbstractService
  *
  */
 @Service
-class KjvService extends  AbstractService {
+class KjvService extends AbstractService {
     def bibleData
-    KjvService(){
+
+    KjvService() {
         super("/kjv.json")
     }
 }

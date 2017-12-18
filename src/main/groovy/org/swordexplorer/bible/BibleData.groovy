@@ -7,12 +7,14 @@ import groovy.json.JsonSlurper
  */
 class BibleData {
     def bibleData
-    BibleData(jsonFilename){
+
+    BibleData(jsonFilename) {
         load(jsonFilename)
     }
-    def load(jsonFilename){
+
+    def load(jsonFilename) {
         def stream = getClass().getResourceAsStream(jsonFilename)
-        bibleData = new JsonSlurper().parseText( stream.text)
+        bibleData = new JsonSlurper().parseText(stream.text)
     }
 
     def data() {

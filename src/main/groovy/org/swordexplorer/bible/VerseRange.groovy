@@ -10,14 +10,14 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document
 class VerseRange implements Serializable {
     String verseSpec
-    List<Verse>  verses
+    List<Verse> verses
 
-    VerseRange(String verseSpec, List<Verse> verses){
+    VerseRange(String verseSpec, List<Verse> verses) {
         this.verseSpec = verseSpec
-        this.verses =verses
+        this.verses = verses
     }
 
-    static VerseSet asVerseSet(VerseRange vr){
+    static VerseSet asVerseSet(VerseRange vr) {
         new VerseSet(vr.verseSpec, vr.verses.collect { it.verseId })
     }
 

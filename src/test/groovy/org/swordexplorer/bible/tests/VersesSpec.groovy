@@ -9,13 +9,14 @@ import spock.lang.Specification
  */
 class VersesSpec extends Specification {
 
-    def bookService= new KjvService()
+    def bookService = new KjvService()
+
     void setup() {
     }
 
     def "verseSpecToVerse 'Gen 6:1-10' should return a VerseRange with 10 verses"() {
         when:
-        def verseRange =bookService.verseSpecToVerses("Gen 6:1-10")
+        def verseRange = bookService.verseSpecToVerses("Gen 6:1-10")
 
         then:
         verseRange.verses.size() == 10
@@ -23,7 +24,7 @@ class VersesSpec extends Specification {
 
     def "verseSpecToVerse 'Rev 16:1-5, 9, 11-14' should return a VerseRange with 10 verses"() {
         when:
-        def verseRange =bookService.verseSpecToVerses("Rev 16:1-5, 9, 11-15")
+        def verseRange = bookService.verseSpecToVerses("Rev 16:1-5, 9, 11-15")
 
         then:
         verseRange.verses.size() == 11

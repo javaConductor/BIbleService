@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
  *
  */
 @Document
-class VerseSet implements  Serializable{
+class VerseSet implements Serializable {
     def verseSpec
     List<String> verseIds
 

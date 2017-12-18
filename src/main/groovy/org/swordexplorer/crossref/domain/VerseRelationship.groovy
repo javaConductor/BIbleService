@@ -8,7 +8,7 @@ import org.swordexplorer.bible.VerseRange
  * Created by lcollins on 8/15/2014.
  */
 @Document
-class VerseRelationship  implements Serializable {
+class VerseRelationship implements Serializable {
     @Id
     String id
     VerseRange verseRange
@@ -39,7 +39,8 @@ class VerseRelationship  implements Serializable {
         if (id)
             this.id = id
     }
-    VerseRelationship(Object id, VerseRange verseRange, String relationshipType, VerseRange relatedRange, String comments){
-        this(id?.toString(), verseRange, relationshipType, relatedRange, comments )
+
+    VerseRelationship(Object id, VerseRange verseRange, String relationshipType, VerseRange relatedRange, String comments) {
+        this(id?.toString(), verseRange, relationshipType, relatedRange, comments)
     }
 }

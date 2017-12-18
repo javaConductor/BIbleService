@@ -15,43 +15,43 @@ class xrefSpec extends Specification {
     BibleCrossReference bibleCrossReference
     def testXRef = [
             [
-                    subjectVerses:['01001001', '01001002'],
-                    relatedVerses:['43001001','43001002','43001003'],
-                    relationshipType:'Same As',
-                    comments: 'Theses are similar!!!!'
-            ],            [
-                    subjectVerses:['01001001', '01001002'],
-                    relatedVerses:['01002001','01002002','01002003'],
-                    relationshipType:'Same As'
+                    subjectVerses   : ['01001001', '01001002'],
+                    relatedVerses   : ['43001001', '43001002', '43001003'],
+                    relationshipType: 'Same As',
+                    comments        : 'Theses are similar!!!!'
+            ], [
+                    subjectVerses   : ['01001001', '01001002'],
+                    relatedVerses   : ['01002001', '01002002', '01002003'],
+                    relationshipType: 'Same As'
             ]
-        ];
+    ];
 
     def testXRef2 = [
             [
-                    subjectVerses:['02001001', '02001002'],
-                    relatedVerses:['43001001','43001002','43001003'],
-                    relationshipType:'Same As',
-                    comments: 'Theses are similar!!!!'
+                    subjectVerses   : ['02001001', '02001002'],
+                    relatedVerses   : ['43001001', '43001002', '43001003'],
+                    relationshipType: 'Same As',
+                    comments        : 'Theses are similar!!!!'
             ],
             [
-                    subjectVerses:['01001001', '01001002'],
-                    relatedVerses:['01002001','01002002','01002003'],
-                    relationshipType:'Same As'
+                    subjectVerses   : ['01001001', '01001002'],
+                    relatedVerses   : ['01002001', '01002002', '01002003'],
+                    relationshipType: 'Same As'
             ]
-        ];
+    ];
 
     def testXRef3 = [
             [
-                    subjectVerses:['01001001', '01001002'],
-                    relatedVerses:['43001001','43001002','43001003'],
-                    relationshipType:'Same As',
-                    comments: 'Theses are similar!!!!'
-            ],            [
-                    subjectVerses:['01001001', '01001002'],
-                    relatedVerses:['01002001','01002002','01002003'],
-                    relationshipType:'Same As'
+                    subjectVerses   : ['01001001', '01001002'],
+                    relatedVerses   : ['43001001', '43001002', '43001003'],
+                    relationshipType: 'Same As',
+                    comments        : 'Theses are similar!!!!'
+            ], [
+                    subjectVerses   : ['01001001', '01001002'],
+                    relatedVerses   : ['01002001', '01002002', '01002003'],
+                    relationshipType: 'Same As'
             ]
-        ];
+    ];
 
     BibleService bibleService = new KjvService()
     def xrefService = new BibleCrossReference(bibleService)
@@ -68,7 +68,7 @@ class xrefSpec extends Specification {
     @spock.lang.Ignore
     def "should add a relationship to the crossReference"() {
         when:
-        xrefService.addVerseRelationship(['01001001'],"testRel",['43001001','43001002','43001003'])
+        xrefService.addVerseRelationship(['01001001'], "testRel", ['43001001', '43001002', '43001003'])
 
         then:
         xrefService.verseRelationships().size() == 1

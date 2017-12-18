@@ -23,7 +23,7 @@ class XRefDb {//implements PagingAndSortingRepository<VerseRelationship, String>
     @Autowired
     XRefDb(BibleService bibleService, MongoTemplate mongo) {
         super()
-        this.mongo =mongo
+        this.mongo = mongo
         this.bibleService = bibleService
     }
 
@@ -57,8 +57,8 @@ class XRefDb {//implements PagingAndSortingRepository<VerseRelationship, String>
         def tmp = [
                 "relationshipType": verseRelationship.relationshipType,
                 "comments"        : verseRelationship.comments,
-                "verseRange"        :  verseRelationship.verseRange,
-                "relatedRange"      :  verseRelationship.relatedRange
+                "verseRange"      : verseRelationship.verseRange,
+                "relatedRange"    : verseRelationship.relatedRange
         ]
         if (verseRelationship.id)
             tmp.id = new ObjectId(verseRelationship.id);

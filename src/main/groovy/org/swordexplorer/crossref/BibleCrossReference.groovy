@@ -41,14 +41,14 @@ class BibleCrossReference {
         def obj = xrefDb.removeRelationship(id)
     }
 
-  VerseRelationship updateVerseRelationship(id, verseSpec, relationshipType, relatedVerseSpec, comments) {
+    VerseRelationship updateVerseRelationship(id, verseSpec, relationshipType, relatedVerseSpec, comments) {
 
-    if ( !service.isVerseSpec(verseSpec) ){
-      throw new IllegalArgumentException("Bad verseSpec: $verseSpec")
-    }
-    if ( !service.isVerseSpec(relatedVerseSpec) ){
-      throw new IllegalArgumentException("Bad related verseSpec: $relatedVerseSpec")
-    }
+        if (!service.isVerseSpec(verseSpec)) {
+            throw new IllegalArgumentException("Bad verseSpec: $verseSpec")
+        }
+        if (!service.isVerseSpec(relatedVerseSpec)) {
+            throw new IllegalArgumentException("Bad related verseSpec: $relatedVerseSpec")
+        }
         def verses = service.verseSpecToVerses(verseSpec)
         def relatedVerses = service.verseSpecToVerses(relatedVerseSpec)
         def obj = new VerseRelationship(id, verses, relationshipType, relatedVerses, comments)
@@ -56,17 +56,17 @@ class BibleCrossReference {
         obj
     }
 
-  VerseRelationship updateVerseRelationship(VerseRelationship verseRelationship) {
+    VerseRelationship updateVerseRelationship(VerseRelationship verseRelationship) {
         def obj = xrefDb.updateRelationship(verseRelationship)
         obj
     }
 
-  VerseRelationship getVerseRelationship( ObjectId id) {
+    VerseRelationship getVerseRelationship(ObjectId id) {
         def obj = xrefDb.getRelationship(id)
         obj
     }
 
-  VerseRelationship addVerseRelationship(verseSpec, relationshipType, relatedVerseSpec, comments = "") {
+    VerseRelationship addVerseRelationship(verseSpec, relationshipType, relatedVerseSpec, comments = "") {
         def verses = service.verseSpecToVerses(verseSpec)
         def relatedVerses = service.verseSpecToVerses(relatedVerseSpec)
         def obj = new VerseRelationship(verses, relationshipType, relatedVerses, comments)
@@ -74,13 +74,13 @@ class BibleCrossReference {
         obj
     }
 
-  VerseRelationship addVerseRelationship(VerseRelationship verseRelationship) {
+    VerseRelationship addVerseRelationship(VerseRelationship verseRelationship) {
         def obj = xrefDb.createRelationship(verseRelationship)
         xref.add(obj)
         obj
     }
 
-  List<VerseRelationship> findVerseRelationshipsBySubjectVerse(List subjectVerses) {
+    List<VerseRelationship> findVerseRelationshipsBySubjectVerse(List subjectVerses) {
         xref.findAll { vr ->
             matchVerses(subjectVerses, vr.subjectVerses)
         }
@@ -98,23 +98,23 @@ class BibleCrossReference {
     }
 
     List<VerseRelationship> verseRelationships() {
-        xrefDb.allRelationships().sort { vr1,vr2 ->
+        xrefDb.allRelationships().sort { vr1, vr2 ->
 
             def verseId1 = vr1?.verseRange.verses[0].verseId
             def verseId2 = vr2?.verseRange.verses[0].verseId
 
-            if ( verseId1 != verseId2){
+            if (verseId1 != verseId2) {
                 return verseId1.compareTo(verseId2)
             }
             return vr2.verseRange.verses.size() - vr1.verseRange.verses.size()
         }
     }
 
-  List<RelationshipType> relationshipTypes() {
+    List<RelationshipType> relationshipTypes() {
         _relationshipTypes
     }
 
-  RelationshipType addRelationshipType(relationshipType, description) {
+    RelationshipType addRelationshipType(relationshipType, description) {
         def obj = new RelationshipType(name: relationshipType, description: description)
         _relationshipTypes[relationshipType] = obj
         obj

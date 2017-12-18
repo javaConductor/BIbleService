@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document
  */
 @ToString
 @Document
-class Verse  implements Serializable  {
+class Verse implements Serializable {
     @Id
     String verseId //BBCCCVVV
     int verse
@@ -17,7 +17,8 @@ class Verse  implements Serializable  {
     int chapter
     String verseSpec
     String verseText
-    String toString(){
+
+    String toString() {
         "$verseSpec $verseText"
     }
 }

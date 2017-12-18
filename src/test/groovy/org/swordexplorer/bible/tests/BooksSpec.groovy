@@ -9,13 +9,14 @@ import spock.lang.Specification
  */
 class BooksSpec extends Specification {
 
-    def bookService= new KjvService()
+    def bookService = new KjvService()
+
     void setup() {
     }
 
     def "getBooks should return 66 books"() {
         when:
-        def bks =bookService.getBooks()
+        def bks = bookService.getBooks()
 
         then:
         bks.size() == 66
